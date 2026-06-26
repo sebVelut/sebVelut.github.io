@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sébastien — Personal site</title>
+
+<!-- =========================================================================
+     POLICES (Google Fonts) — pour en changer, voir --font-* dans le bloc VARIABLES.
+     ========================================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================================
+   1) VARIABLES — COULEURS, POLICES, ESPACEMENTS. Change uniquement les valeurs.
+   ========================================================================= */
+:root{
+  --bg:        #F4F5F2;   /* fond de la page          */
+  --surface:   #FFFFFF;   /* fond des blocs           */
+  --ink:       #182A4E;   /* texte principal (encre)  */
+  --muted:     #5C6B82;   /* texte secondaire         */
+  --line:      #E2E3DC;   /* filets et séparateurs    */
+  --accent:    #0E7C86;   /* accent : liens, repères  */
+  --accent-soft:#E6F1F2;  /* fond d'accent léger      */
+  --code:      #182A4E;   /* blocs du motif m-séquence */
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  --maxw: 980px;
+  --radius: 12px;
+}
+
+/* =========================================================================
+   2) STYLE — en principe, rien à modifier en dessous.
+   ========================================================================= */
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+a{ color:var(--accent); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 1.5rem; }
+
+/* ---- Barre de navigation ---- */
+.topbar{ position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+.topbar .row{ max-width:var(--maxw); margin:0 auto; padding:.9rem 1.5rem;
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+.brand{ display:flex; flex-direction:column; line-height:1.15; margin-right:auto; }
+.brand b{ font-family:var(--font-display); font-size:1.05rem; }
+.brand span{ font-family:var(--font-mono); font-size:.72rem; color:var(--muted); }
+.mainnav{ display:flex; gap:.3rem; flex-wrap:wrap; }
+.mainnav a{ font-family:var(--font-display); font-size:.92rem; color:var(--muted);
+  padding:.4rem .7rem; border-radius:8px; }
+.mainnav a:hover{ color:var(--ink); background:var(--surface); text-decoration:none; }
+.mainnav a.active{ color:var(--accent); background:var(--accent-soft); }
+.lang{ display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.lang button{ font-family:var(--font-mono); font-size:.78rem; border:none; background:transparent;
+  color:var(--muted); padding:.4rem .6rem; cursor:pointer; }
+.lang button.active{ background:var(--ink); color:var(--bg); }
+
+/* ---- Motif m-séquence (signature c-VEP) ---- */
+.mseq{ display:flex; height:6px; gap:2px; }
+.mseq i{ flex:1; background:var(--line); }
+.mseq i.on{ background:var(--code); }
+.mseq.bar{ max-width:var(--maxw); margin:0 auto; }
+
+/* ---- Pages ---- */
+main{ padding:2.6rem 0 1rem; min-height:60vh; }
+.page{ animation:fade .35s ease; }
+@keyframes fade{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+
+.pagehead{ margin:0 0 1.8rem; }
+.pagehead .eyebrow{ font-family:var(--font-mono); font-size:.78rem; color:var(--accent); margin:0 0 .3rem; }
+.pagehead h1{ font-family:var(--font-display); font-size:2rem; margin:0; line-height:1.1; }
+.pagehead p.lead{ color:var(--muted); margin:.7rem 0 0; max-width:60ch; }
+
+/* Bloc profil (page About) */
+.profile{ display:flex; gap:1.6rem; align-items:flex-start; flex-wrap:wrap; margin-bottom:1.8rem; }
+.avatar{ width:120px; height:120px; border-radius:18px; background:var(--accent-soft); color:var(--accent);
+  display:flex; align-items:center; justify-content:center; font-family:var(--font-display);
+  font-weight:700; font-size:2.4rem; border:1px solid var(--line); overflow:hidden; flex:none; }
+.avatar img{ width:100%; height:100%; object-fit:cover; }
+.profile .meta{ flex:1; min-width:240px; }
+.profile .meta .aff{ font-family:var(--font-mono); font-size:.82rem; color:var(--muted); margin:.2rem 0; }
+.links{ display:flex; flex-wrap:wrap; gap:.5rem; padding:0; margin:.8rem 0 0; list-style:none; }
+.links a{ font-family:var(--font-mono); font-size:.8rem; display:inline-flex; align-items:center; gap:.4rem;
+  border:1px solid var(--line); border-radius:8px; padding:.32rem .6rem; color:var(--ink); }
+.links a:hover{ background:var(--accent-soft); color:var(--accent); text-decoration:none; }
+.cv-btn{ display:inline-block; font-family:var(--font-mono); font-size:.82rem; padding:.55rem 1rem;
+  border:1px solid var(--ink); border-radius:8px; color:var(--ink); margin-top:.9rem; }
+.cv-btn:hover{ background:var(--ink); color:var(--bg); text-decoration:none; }
+.eeg{ width:100%; height:44px; margin:1rem 0 .4rem; color:var(--accent); display:block; }
+
+/* Sous-sections dans une page */
+.block{ margin:2.2rem 0; }
+.block > h2{ font-family:var(--font-display); font-size:1.15rem; margin:0 0 1rem;
+  display:flex; align-items:center; gap:.7rem; }
+.block > h2::after{ content:""; flex:1; height:1px; background:var(--line); }
+.about p{ margin:0 0 .9rem; }
+
+/* Étiquettes */
+.tags{ display:flex; flex-wrap:wrap; gap:.5rem; padding:0; margin:0; list-style:none; }
+.tags li{ font-family:var(--font-mono); font-size:.8rem; background:var(--accent-soft);
+  border:1px solid var(--line); padding:.32rem .7rem; border-radius:999px; }
+
+/* Entrées datées (carrière) */
+.entry{ display:grid; grid-template-columns:140px 1fr; gap:1.2rem; padding:1rem 0; border-top:1px solid var(--line); }
+.entry:first-of-type{ border-top:none; }
+.entry .when{ font-family:var(--font-mono); font-size:.82rem; color:var(--muted); padding-top:.15rem; }
+.entry h3{ font-family:var(--font-display); font-size:1.02rem; margin:0 0 .15rem; }
+.entry .org{ color:var(--accent); font-weight:500; }
+.entry .loc{ color:var(--muted); font-size:.9rem; }
+.entry ul{ margin:.5rem 0 0; padding-left:1.1rem; color:var(--muted); }
+.entry ul li{ margin:.2rem 0; }
+.entry p.detail{ color:var(--muted); margin:.4rem 0 0; font-size:.95rem; }
+
+/* Publications */
+.pub{ padding:1rem 0; border-top:1px solid var(--line); display:grid; grid-template-columns:56px 1fr; gap:1rem; }
+.pub:first-of-type{ border-top:none; }
+.pub .yr{ font-family:var(--font-mono); font-size:.85rem; color:var(--muted); padding-top:.1rem; }
+.pub .ptitle{ font-weight:600; }
+.pub .authors{ color:var(--muted); font-size:.93rem; margin:.15rem 0; }
+.pub .authors .you{ color:var(--ink); font-weight:600; }
+.pub .venue{ font-style:italic; color:var(--muted); font-size:.93rem; }
+.pub .plinks{ margin-top:.4rem; display:flex; flex-wrap:wrap; gap:.5rem; }
+.pub .plinks a{ font-family:var(--font-mono); font-size:.76rem; padding:.2rem .55rem;
+  border:1px solid var(--line); border-radius:6px; color:var(--accent); }
+.pub .plinks a:hover{ background:var(--accent-soft); text-decoration:none; }
+
+/* Cartes (projets, hobbies) */
+.cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; }
+.card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1.1rem 1.2rem; }
+.card h3{ font-family:var(--font-display); font-size:1.02rem; margin:0 0 .4rem; }
+.card p{ color:var(--muted); margin:0 0 .6rem; font-size:.95rem; }
+.card .plinks{ display:flex; flex-wrap:wrap; gap:.5rem; }
+.card .plinks a{ font-family:var(--font-mono); font-size:.76rem; padding:.2rem .55rem;
+  border:1px solid var(--line); border-radius:6px; }
+
+footer{ border-top:1px solid var(--line); margin-top:2rem; padding:1.6rem 0 3rem; color:var(--muted);
+  font-size:.85rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:.6rem; }
+footer a.top{ font-family:var(--font-mono); font-size:.8rem; }
+
+@media (max-width:720px){
+  .entry{ grid-template-columns:1fr; gap:.3rem; }
+  .entry .when{ padding-top:0; }
+  .pub{ grid-template-columns:1fr; gap:.2rem; }
+  .pagehead h1{ font-size:1.65rem; }
+}
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } .page{ animation:none; } }
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="row">
+    <div class="brand" id="brand"></div>
+    <nav class="mainnav" id="nav"></nav>
+    <div class="lang" id="lang"></div>
+  </div>
+</header>
+<div class="mseq bar" id="mseqbar"></div>
+
+<main class="wrap"><div id="view"></div></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+/* =========================================================================
+   3) DATA — TON CONTENU, EN DEUX LANGUES.
+   - Tout l'anglais est dans DATA.en, tout le français dans DATA.fr.
+   - Les deux blocs ont EXACTEMENT la même structure : édite-les en parallèle.
+   - Ce qui ne dépend pas de la langue (nom, photo, liens, CV) est dans DATA.profile.
+   - Ajouter / supprimer une entrée = ajouter / supprimer un bloc { ... } (virgule entre blocs).
+   - Vider une liste (ex. talks:[]) masque automatiquement la sous-section.
+   ========================================================================= */
+const DATA = {
+
+  /* ---------- Infos indépendantes de la langue ---------- */
+  profile: {
+    name: "Sébastien Nom",
+    you: "Nom",          // nom de famille à mettre en gras dans les listes d'auteurs
+    photo: "",           // "photo.jpg" (fichier à côté du site) — vide = initiales
+    cv:   "CV_Sebastien.pdf",   // fichier PDF à côté du site (vide = pas de bouton)
+    links: [
+      { ic:"@",  label:"Email",          href:"mailto:sebastien.nom@isae-supaero.fr" },
+      { ic:"GS", label:"Google Scholar", href:"https://scholar.google.com/" },
+      { ic:"OR", label:"ORCID",          href:"https://orcid.org/" },
+      { ic:"GH", label:"GitHub",         href:"https://github.com/" },
+      { ic:"in", label:"LinkedIn",       href:"https://linkedin.com/in/" },
+    ],
+  },
+
+  /* =======================================================================
+     VERSION ANGLAISE
+     ======================================================================= */
+  en: {
+    role: "PhD Candidate — Brain-Computer Interfaces",
+    affiliation: "ISAE-SUPAERO · Toulouse, France",
+    nav: { about:"About me", work:"My work", career:"Career", hobbies:"Hobbies" },
+    ui:  { cv:"Download CV (PDF)", interests:"Research areas", skills:"Skills",
+           contact:"Get in touch", publications:"Publications", projects:"Projects",
+           experience:"Experience", education:"Education", talks:"Talks & teaching",
+           awards:"Awards", top:"Top" },
+
+    /* --- Page : About me --- */
+    about: {
+      title: "About me",
+      lead: "PhD candidate working on EEG-based brain-computer interfaces, at the crossroads of signal processing, machine learning and neuroscience.",
+      intro: [
+        "I research code-modulated visual evoked potential (c-VEP) brain-computer interfaces, with a focus on inter-subject variability and on cutting down calibration time.",
+        "My work spans deep Riemannian transfer learning (the PS-GREEN pipeline), neurophysiological predictors of inter-subject variability, simulation-based inference for calibration-free decoding, and a growing neural-network architecture (GLL-CNN).",
+        "I am finishing my thesis and looking for a position that combines signal processing, machine learning and applied neuroscience.",
+      ],
+      interests: ["Brain-computer interfaces (EEG)","c-VEP","Inter-subject variability",
+        "Transfer learning","Riemannian geometry","Simulation-based inference",
+        "Neural networks","Signal processing"],
+      skills: [
+        { group:"Languages & tools", items:["Python","PyTorch","NumPy / SciPy","MNE-Python","LaTeX","Git"] },
+        { group:"Methods", items:["EEG signal processing","Riemannian geometry","Transfer learning","Simulation-based inference","Deep learning"] },
+        { group:"Languages", items:["French (native)","English (fluent)"] },
+      ],
+    },
+
+    /* --- Page : My work --- */
+    work: {
+      title: "My work",
+      lead: "Selected publications and research projects from my doctoral work.",
+      publications: [
+        { year:"2025", type:"Article", title:"Deep Riemannian transfer learning for cross-subject c-VEP decoding",
+          authors:"Nom S., Coauthor A., Advisor B.", venue:"Journal of Neural Engineering (placeholder)",
+          links:{ PDF:"#", DOI:"#", Code:"#" } },
+        { year:"2024", type:"Conference", title:"Neurophysiological predictors of inter-subject variability in reactive BCIs",
+          authors:"Nom S., Coauthor C., Advisor B.", venue:"IEEE EMBC 2024 (placeholder)",
+          links:{ PDF:"#", HAL:"#" } },
+        { year:"2024", type:"Preprint", title:"Simulation-based inference for calibration-free c-VEP decoding",
+          authors:"Nom S., Advisor B.", venue:"arXiv:0000.00000 (placeholder)",
+          links:{ arXiv:"#", Code:"#" } },
+      ],
+      projects: [
+        { title:"PS-GREEN", text:"Deep Riemannian transfer-learning pipeline for cross-subject EEG decoding.", links:{ Code:"#", Paper:"#" } },
+        { title:"GLL-CNN", text:"A growing neural-network architecture for c-VEP classification.", links:{ Code:"#" } },
+        { title:"Calibration-free decoding", text:"Simulation-based inference to remove per-subject calibration.", links:{ Paper:"#" } },
+      ],
+    },
+
+    /* --- Page : Career --- */
+    career: {
+      title: "Career",
+      lead: "Professional experience, education and academic activities — including items that don't fit a one-page CV.",
+      experience: [
+        { period:"2022 — 2025", role:"PhD Candidate", org:"ISAE-SUPAERO", location:"Toulouse, FR",
+          points:["Designed EEG c-VEP decoding pipelines and cross-subject transfer methods.",
+                  "Developed the PS-GREEN pipeline and the GLL-CNN architecture.",
+                  "Supervised interns and collaborated with clinical teams."] },
+        { period:"Summer 2021", role:"Research intern", org:"Lab / Company", location:"City, FR",
+          points:["Short description of the mission (to replace)."] },
+      ],
+      education: [
+        { period:"2022 — 2025", degree:"PhD — Brain-Computer Interfaces", org:"ISAE-SUPAERO", location:"Toulouse, FR",
+          detail:"Thesis: inter-subject variability in passive and reactive c-VEP-based BCIs." },
+        { period:"2020 — 2022", degree:"MSc — (title)", org:"University / School", location:"City, FR",
+          detail:"Honours, specialisation, highlights (to replace)." },
+      ],
+      talks: [
+        { period:"2024", title:"Oral talk — inter-subject variability in c-VEP", org:"Conference X, City" },
+        { period:"2023", title:"Teaching assistant — Signal processing", org:"ISAE-SUPAERO" },
+      ],
+      awards: [
+        { period:"2023", title:"Grant / award (to replace)", org:"Organisation" },
+      ],
+    },
+
+    /* --- Page : Hobbies --- */
+    hobbies: {
+      title: "Hobbies",
+      lead: "A few things I enjoy outside the lab. (Replace with your own.)",
+      items: [
+        { title:"Hobby one", text:"A sentence about what you like and why." },
+        { title:"Hobby two", text:"A sentence about what you like and why." },
+        { title:"Hobby three", text:"A sentence about what you like and why." },
+      ],
+    },
+  },
+
+  /* =======================================================================
+     VERSION FRANÇAISE  (même structure que DATA.en)
+     ======================================================================= */
+  fr: {
+    role: "Doctorant — Interfaces Cerveau-Machine",
+    affiliation: "ISAE-SUPAERO · Toulouse, France",
+    nav: { about:"À propos", work:"Mes travaux", career:"Parcours", hobbies:"Loisirs" },
+    ui:  { cv:"Télécharger le CV (PDF)", interests:"Domaines de recherche", skills:"Compétences",
+           contact:"Me contacter", publications:"Publications", projects:"Projets",
+           experience:"Expérience", education:"Formation", talks:"Interventions & enseignement",
+           awards:"Distinctions", top:"Haut" },
+
+    about: {
+      title: "À propos",
+      lead: "Doctorant en interfaces cerveau-machine (EEG), au croisement du traitement du signal, de l'apprentissage automatique et des neurosciences.",
+      intro: [
+        "Je travaille sur les interfaces cerveau-machine fondées sur les potentiels évoqués visuels modulés par code (c-VEP), avec un intérêt pour la variabilité inter-sujets et la réduction du temps de calibration.",
+        "Mes travaux couvrent l'apprentissage par transfert riemannien profond (pipeline PS-GREEN), les prédicteurs neurophysiologiques de la variabilité inter-sujets, l'inférence basée simulation pour un décodage sans calibration, et une architecture de réseau de neurones évolutive (GLL-CNN).",
+        "Je termine ma thèse et recherche un poste alliant traitement du signal, apprentissage automatique et neurosciences appliquées.",
+      ],
+      interests: ["Interfaces cerveau-machine (EEG)","c-VEP","Variabilité inter-sujets",
+        "Apprentissage par transfert","Géométrie riemannienne","Inférence basée simulation",
+        "Réseaux de neurones","Traitement du signal"],
+      skills: [
+        { group:"Langages & outils", items:["Python","PyTorch","NumPy / SciPy","MNE-Python","LaTeX","Git"] },
+        { group:"Méthodes", items:["Traitement du signal EEG","Géométrie riemannienne","Apprentissage par transfert","Inférence basée simulation","Deep learning"] },
+        { group:"Langues", items:["Français (langue maternelle)","Anglais (courant)"] },
+      ],
+    },
+
+    work: {
+      title: "Mes travaux",
+      lead: "Sélection de publications et de projets de recherche issus de ma thèse.",
+      publications: [
+        { year:"2025", type:"Article", title:"Transfert riemannien profond pour le décodage c-VEP inter-sujets",
+          authors:"Nom S., Coauteur A., Directeur B.", venue:"Journal of Neural Engineering (exemple)",
+          links:{ PDF:"#", DOI:"#", Code:"#" } },
+        { year:"2024", type:"Conférence", title:"Prédicteurs neurophysiologiques de la variabilité inter-sujets en BCI réactive",
+          authors:"Nom S., Coauteur C., Directeur B.", venue:"IEEE EMBC 2024 (exemple)",
+          links:{ PDF:"#", HAL:"#" } },
+        { year:"2024", type:"Prépublication", title:"Inférence basée simulation pour un décodage c-VEP sans calibration",
+          authors:"Nom S., Directeur B.", venue:"arXiv:0000.00000 (exemple)",
+          links:{ arXiv:"#", Code:"#" } },
+      ],
+      projects: [
+        { title:"PS-GREEN", text:"Pipeline d'apprentissage par transfert riemannien profond pour le décodage EEG inter-sujets.", links:{ Code:"#", Article:"#" } },
+        { title:"GLL-CNN", text:"Architecture de réseau de neurones évolutive pour la classification c-VEP.", links:{ Code:"#" } },
+        { title:"Décodage sans calibration", text:"Inférence basée simulation pour supprimer la calibration par sujet.", links:{ Article:"#" } },
+      ],
+    },
+
+    career: {
+      title: "Parcours",
+      lead: "Expérience, formation et activités académiques — y compris ce qui ne tient pas sur un CV d'une page.",
+      experience: [
+        { period:"2022 — 2025", role:"Doctorant", org:"ISAE-SUPAERO", location:"Toulouse, FR",
+          points:["Conception de pipelines de décodage EEG c-VEP et de méthodes de transfert inter-sujets.",
+                  "Développement du pipeline PS-GREEN et de l'architecture GLL-CNN.",
+                  "Encadrement de stagiaires et collaboration avec des équipes cliniques."] },
+        { period:"Été 2021", role:"Stage de recherche", org:"Laboratoire / Entreprise", location:"Ville, FR",
+          points:["Description courte de la mission (à remplacer)."] },
+      ],
+      education: [
+        { period:"2022 — 2025", degree:"Doctorat — Interfaces cerveau-machine", org:"ISAE-SUPAERO", location:"Toulouse, FR",
+          detail:"Thèse : variabilité inter-sujets dans les BCI passives et réactives basées c-VEP." },
+        { period:"2020 — 2022", degree:"Master — (intitulé)", org:"Université / École", location:"Ville, FR",
+          detail:"Mention, spécialité, faits marquants (à remplacer)." },
+      ],
+      talks: [
+        { period:"2024", title:"Présentation orale — variabilité inter-sujets en c-VEP", org:"Conférence X, Ville" },
+        { period:"2023", title:"Travaux dirigés — Traitement du signal", org:"ISAE-SUPAERO" },
+      ],
+      awards: [
+        { period:"2023", title:"Bourse / prix (à remplacer)", org:"Organisme" },
+      ],
+    },
+
+    hobbies: {
+      title: "Loisirs",
+      lead: "Quelques activités que j'aime en dehors du labo. (À remplacer par les tiennes.)",
+      items: [
+        { title:"Loisir un", text:"Une phrase sur ce que tu aimes et pourquoi." },
+        { title:"Loisir deux", text:"Une phrase sur ce que tu aimes et pourquoi." },
+        { title:"Loisir trois", text:"Une phrase sur ce que tu aimes et pourquoi." },
+      ],
+    },
+  },
+};
+
+/* =========================================================================
+   4) RENDU & NAVIGATION — Ne pas modifier (sauf si tu sais ce que tu fais).
+   ========================================================================= */
+const $ = (s)=>document.querySelector(s);
+const esc = (s)=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const PAGES = ["about","work","career","hobbies"];
+
+let lang = "en";
+function readHash(){
+  const m = (location.hash||"").replace("#","").split("/");
+  const l = (m[0]==="fr"||m[0]==="en") ? m[0] : "en";
+  const p = PAGES.includes(m[1]) ? m[1] : "about";
+  return { l, p };
+}
+
+function mseq(n=120){
+  let reg=[1,0,1,1,0,0,1], out=[];
+  for(let i=0;i<n;i++){ out.push(reg[0]); const f=reg[0]^reg[6]; reg.shift(); reg.push(f); }
+  return out.map(b=>`<i class="${b?'on':''}"></i>`).join('');
+}
+function initials(name){ return name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
+function eeg(){ return `<svg class="eeg" viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 28 L40 28 60 26 90 29 120 11 150 38 180 21 210 28 230 28 250 7 270 42 290 24 320 28 360 28 380 17 410 32 440 23 470 28 540 28 560 25 600 28"
+  fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.7"/></svg>`; }
+function linkBtns(obj){ return obj ? Object.entries(obj).map(([k,v])=>`<a href="${esc(v)}">${esc(k)}</a>`).join('') : ''; }
+function tags(arr){ return `<ul class="tags">${arr.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`; }
+
+function pageAbout(T){
+  const p = DATA.profile;
+  const av = p.photo ? `<img src="${esc(p.photo)}" alt="${esc(p.name)}">` : esc(initials(p.name));
+  const links = p.links.map(l=>`<a href="${esc(l.href)}"><span>${esc(l.ic)}</span>${esc(l.label)}</a>`).join('');
+  return `<div class="page">
+    <div class="profile">
+      <div class="avatar">${av}</div>
+      <div class="meta">
+        <div class="pagehead" style="margin:0">
+          <p class="eyebrow">${esc(T.role)}</p>
+          <h1>${esc(p.name)}</h1>
+          <p class="aff">${esc(T.affiliation)}</p>
+        </div>
+        <ul class="links">${links}</ul>
+        ${p.cv ? `<a class="cv-btn" href="${esc(p.cv)}">${esc(T.ui.cv)}</a>` : ''}
+      </div>
+    </div>
+    ${eeg()}
+    <div class="about block"><h2>${esc(T.about.title)}</h2>
+      ${T.about.intro.map(x=>`<p>${esc(x)}</p>`).join('')}</div>
+    <div class="block"><h2>${esc(T.ui.interests)}</h2>${tags(T.about.interests)}</div>
+    <div class="block"><h2>${esc(T.ui.skills)}</h2>
+      ${T.about.skills.map(g=>`<div style="margin-bottom:1rem"><p style="font-family:var(--font-display);margin:0 0 .5rem">${esc(g.group)}</p>${tags(g.items)}</div>`).join('')}</div>
+  </div>`;
+}
+
+function pageWork(T){
+  const w = T.work;
+  const pubs = w.publications.map(pub=>{
+    const authors = esc(pub.authors).replace(new RegExp('('+esc(DATA.profile.you)+')'),'<span class="you">$1</span>');
+    return `<div class="pub"><div class="yr">${esc(pub.year)}</div><div>
+      <div class="ptitle">${esc(pub.title)}</div>
+      <div class="authors">${authors}</div>
+      <div class="venue">${esc(pub.venue)}${pub.type?` · ${esc(pub.type)}`:''}</div>
+      ${pub.links?`<div class="plinks">${linkBtns(pub.links)}</div>`:''}</div></div>`;
+  }).join('');
+  const projs = w.projects && w.projects.length ? `<div class="block"><h2>${esc(T.ui.projects)}</h2>
+    <div class="cards">${w.projects.map(pr=>`<div class="card"><h3>${esc(pr.title)}</h3><p>${esc(pr.text)}</p>${pr.links?`<div class="plinks">${linkBtns(pr.links)}</div>`:''}</div>`).join('')}</div></div>` : '';
+  return `<div class="page">
+    <div class="pagehead"><p class="eyebrow">02</p><h1>${esc(w.title)}</h1><p class="lead">${esc(w.lead)}</p></div>
+    <div class="block"><h2>${esc(T.ui.publications)}</h2>${pubs}</div>
+    ${projs}</div>`;
+}
+
+function pageCareer(T){
+  const c = T.career;
+  const exp = c.experience.map(e=>`<div class="entry"><div class="when">${esc(e.period)}</div><div>
+      <h3>${esc(e.role)}</h3><div><span class="org">${esc(e.org)}</span> <span class="loc">· ${esc(e.location)}</span></div>
+      ${e.points&&e.points.length?`<ul>${e.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>`:''}</div></div>`).join('');
+  const edu = c.education.map(e=>`<div class="entry"><div class="when">${esc(e.period)}</div><div>
+      <h3>${esc(e.degree)}</h3><div><span class="org">${esc(e.org)}</span> <span class="loc">· ${esc(e.location)}</span></div>
+      ${e.detail?`<p class="detail">${esc(e.detail)}</p>`:''}</div></div>`).join('');
+  const simple = (arr)=>arr.map(a=>`<div class="entry"><div class="when">${esc(a.period)}</div><div>
+      <h3>${esc(a.title)}</h3><div class="loc">${esc(a.org)}</div></div></div>`).join('');
+  const talks = c.talks&&c.talks.length ? `<div class="block"><h2>${esc(T.ui.talks)}</h2>${simple(c.talks)}</div>`:'';
+  const awards = c.awards&&c.awards.length ? `<div class="block"><h2>${esc(T.ui.awards)}</h2>${simple(c.awards)}</div>`:'';
+  return `<div class="page">
+    <div class="pagehead"><p class="eyebrow">03</p><h1>${esc(c.title)}</h1><p class="lead">${esc(c.lead)}</p></div>
+    <div class="block"><h2>${esc(T.ui.experience)}</h2>${exp}</div>
+    <div class="block"><h2>${esc(T.ui.education)}</h2>${edu}</div>
+    ${talks}${awards}</div>`;
+}
+
+function pageHobbies(T){
+  const h = T.hobbies;
+  return `<div class="page">
+    <div class="pagehead"><p class="eyebrow">04</p><h1>${esc(h.title)}</h1><p class="lead">${esc(h.lead)}</p></div>
+    <div class="cards">${h.items.map(i=>`<div class="card"><h3>${esc(i.title)}</h3><p>${esc(i.text)}</p></div>`).join('')}</div>
+  </div>`;
+}
+
+function renderChrome(T,page){
+  $('#brand').innerHTML = `<b>${esc(DATA.profile.name)}</b><span>${esc(T.role)}</span>`;
+  $('#nav').innerHTML = PAGES.map(p=>`<a href="#${lang}/${p}" class="${p===page?'active':''}">${esc(T.nav[p])}</a>`).join('');
+  $('#lang').innerHTML = ["en","fr"].map(l=>`<button data-l="${l}" class="${l===lang?'active':''}">${l.toUpperCase()}</button>`).join('');
+  $('#mseqbar').innerHTML = mseq();
+  $('#foot').innerHTML = `<span>© ${new Date().getFullYear()} ${esc(DATA.profile.name)}</span><a class="top" href="#${lang}/${page}">↑ ${esc(T.ui.top)}</a>`;
+  $('#lang').querySelectorAll('button').forEach(b=>b.onclick=()=>{ location.hash = `#${b.dataset.l}/${readHash().p}`; });
+}
+
+function route(){
+  const { l, p } = readHash();
+  lang = l;
+  document.documentElement.lang = l;
+  const T = DATA[l];
+  renderChrome(T,p);
+  const render = { about:pageAbout, work:pageWork, career:pageCareer, hobbies:pageHobbies }[p];
+  $('#view').innerHTML = render(T);
+  window.scrollTo({ top:0, behavior:'auto' });
+}
+
+window.addEventListener('hashchange', route);
+if(!location.hash) location.hash = "#en/about";
+route();
+</script>
+</body>
+</html>
